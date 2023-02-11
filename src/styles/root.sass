@@ -1,0 +1,114 @@
+
+/* width */
+::-webkit-scrollbar
+    width: 10px
+
+
+/* Track */
+::-webkit-scrollbar-track
+    background: #f1f1f1
+
+
+/* Handle */
+::-webkit-scrollbar-thumb
+    background: #888
+
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover
+    background: #555
+
+
+html
+    -webkit-text-size-adjust: 100%
+    font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+    font-size: 18px
+
+    @media screen and (max-width: 800px)
+        font-size: 14px
+
+body
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    margin: 0
+    height: 100vh
+
+
+*, :after, :before
+    box-sizing: border-box
+    border: 0 solid #e2e8f0
+
+
+main
+    height: 100%
+    width: 25%
+    margin: auto
+    display: flex
+
+
+.content
+    border-radius: 0.5rem
+    padding: 2rem
+    background: #f3f4f6
+    margin: auto
+    display: flex
+    flex-flow: column
+    row-gap: 1rem
+
+
+h1
+    margin: 0
+
+small
+    font-size: 0.75rem
+
+
+input
+    margin: 0 0 0 0.4rem
+    border: 2px solid #000
+    border-radius: 0.4rem
+    padding: 0.3rem
+    flex: 1
+
+
+form
+    display: flex
+    flex-flow: column
+    row-gap: 1rem
+
+
+fieldset
+    border: none
+    padding: 1rem 0
+    display: flex
+    justify-content: space-around
+
+    + .fields
+        display: grid
+        grid-template-columns: auto minmax(0, 1fr)
+        row-gap: 0.5rem
+        column-gap: 1rem
+
+        > small
+            grid-column: span 2
+            margin: 0 0 0.3rem 0
+            color: #f87171
+            flex-basis: 100%
+
+
+div
+    display: flex
+    align-items: center
+    margin-bottom: 0.5rem
+
+
+button
+    background: #d1d5db
+    border: none
+    border-radius: 0.3rem
+    padding: 0.2rem
+    font-size: 1rem
+    width: 100%
+
+
+

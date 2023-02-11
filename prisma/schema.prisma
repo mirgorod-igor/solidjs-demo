@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int @id @default(autoincrement())
+  username String @unique
+  password String
+
+  @@map("users")
+}
+
+model Region {
+  id   Int    @id
+  name String
+  code String
+  orgs Org[]
+
+  @@map("regions")
+}
+
+model ProductGroup {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
+
+  @@map("product_groups")
+}
+
+model ProductCategory {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
+
+  @@map("product_categories")
+}
+
+model Product {
+  id       Int         @id @default(autoincrement())
+  groupId  Int?
+  parentId Int?
+  name     String
+  catId    Int?
+  unit     ProductUnit @default(it)
+
+  prices   Price[]
+  category ProductCategory? @relation(fields: [catId], references: [id], onDelete: Cascade)
+  group    ProductGroup?    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  parent   Product?         @relation("ProductParent", fields: [parentId], references: [id], onDelete: Cascade)
+  childs   Product[]        @relation("ProductParent")
+  attrs    ProductAttr[]
+
+  @@index([name])
+  @@map("products")
+}
+
+model ProductAttr {
+  id        Int    @id @default(autoincrement())
+  productId Int
+  parentId  Int?
+  name      String
+  value     String
+
+  product Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  parent  ProductAttr?  @relation("ProductAttrParent", fields: [parentId], references: [id], onDelete: Cascade)
+  childs  ProductAttr[] @relation("ProductAttrParent")
+
+  @@map("product_attrs")
+}
+
+model Specialization {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  @@map("specializations")
+}
+
+model Society {
+  id    Int    @id @default(autoincrement())
+  name  String
+  short String
+  orgs  Org[]
+
+  @@map("societies")
+}
+
+model OrgService {
+  id   Int    @id @default(autoincrement())
+  name String
+  orgs Org[]
+
+  @@map("org_services")
+}
+
+model Org {
+  id        Int    @id @default(autoincrement())
+  societyId Int
+  name      String
+  short     String
+  desc      String
+  trade     Trade  @default(w)
+  regionId  Int
+  legalAddr String
+  parentId  Int?
+
+  services OrgService[]
+  society  Society      @relation(fields: [societyId], references: [id], onDelete: Cascade)
+  parent   Org?         @relation("OrgHead", fields: [parentId], references: [id])
+  childs   Org[]        @relation("OrgHead")
+  region   Region       @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  prices   Price[]
+
+  @@map("orgs")
+}
+
+model Price {
+  id       Int  @id @default(autoincrement())
+  parentId Int?
+
+  productId Int?
+  orgId     Int
+  price     Float?
+
+  parent Price?  @relation("OrgPrice", fields: [parentId], references: [id])
+  childs Price[] @relation("OrgPrice")
+
+  org     Org      @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, orgId])
+  @@map("prices")
+}
+
+enum ProductUnit {
+  ton
+  it
+}
+
+enum Trade {
+  w
+  r
+}
