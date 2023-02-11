@@ -37,10 +37,16 @@ export function routeData() {
 
 
 const ssr = async (form: FormData) => {
+    await (
+        new Promise((resolve) => setTimeout(() => resolve(true), 3000))
+    )
+
+
     const loginType = form.get('loginType')
         , username = form.get('username')
         , password = form.get('password')
         , redirectTo = form.get('redirectTo') || '/'
+
     if (
         typeof loginType !== 'string' ||
         typeof username !== 'string' ||
@@ -57,7 +63,7 @@ const ssr = async (form: FormData) => {
     }
 
     if (Object.values(fieldErrors).some(Boolean)) {
-        throw new FormError('Fields invalid', {fieldErrors, fields})
+        throw new FormError('Некоректные данные', {fieldErrors, fields})
     }
 
     switch (loginType) {
@@ -69,7 +75,8 @@ const ssr = async (form: FormData) => {
                 })
             }
             console.log('user', user, redirectTo)
-            return createUserSession(`${user.id}`, redirectTo)
+
+            return createUserSession(user.id, redirectTo)
         }
         case 'register': {
             const userExists = await db.user.findUnique({where: {username}})
@@ -87,7 +94,8 @@ const ssr = async (form: FormData) => {
                     }
                 )
             }
-            return createUserSession(`${user.id}`, redirectTo)
+
+            return createUserSession(user.id, redirectTo)
         }
         default: {
             throw new FormError(`Login type invalid`, {fields})
@@ -98,11 +106,9 @@ const ssr = async (form: FormData) => {
 
 export default function Login() {
     const data = useRouteData<typeof routeData>()
-    const params = useParams()
-
-    const [loggingIn, {Form}] = createServerAction$(ssr)
-
-    const loginTypeSig = createSignal('login')
+        , params = useParams()
+        , [logging, {Form}] = createServerAction$(ssr)
+        , loginTypeSig = createSignal('login')
         , loginType = loginTypeSig[0]
 
 
@@ -134,26 +140,28 @@ export default function Login() {
 
                     <div class='fields'>
                         <label for="username-input">Пользователь</label>
-                        <input name="username" placeholder="demo"/>
+                        <input name="username" placeholder="demo" disabled={logging.pending}/>
 
-                        <Show when={loggingIn.error?.fieldErrors?.username}>
-                            <small role="alert">{loggingIn.error.fieldErrors.username}</small>
+                        <Show when={logging.error?.fieldErrors?.username}>
+                            <small role="alert">{logging.error.fieldErrors.username}</small>
                         </Show>
 
                         <label for="password-input">Пароль</label>
-                        <input name="password" type="password" placeholder="demodemo"/>
+                        <input name="password" type="password" placeholder="demodemo" disabled={logging.pending}/>
 
-                        <Show when={loggingIn.error?.fieldErrors?.password}>
-                            <small role="alert">{loggingIn.error.fieldErrors.password}</small>
+                        <Show when={logging.error?.fieldErrors?.password}>
+                            <small role="alert">{logging.error.fieldErrors.password}</small>
                         </Show>
 
-                        <Show when={loggingIn.error}>
+                        <Show when={logging.error}>
                             <small role="alert" id="error-message">
-                                {loggingIn.error.message}
+                                {logging.error.message}
                             </small>
                         </Show>
                     </div>
-                    <button type="submit">{data() ? (loginType() == 'login' ? 'Войти' : 'Зарегистрироваться') : ''}</button>
+                    <button type="submit" disabled={logging.pending}>
+                        {data() ? (loginType() == 'login' ? 'Войти' : 'Зарегистрироваться') : ''}
+                    </button>
                 </Form>
             </section>
         </main>

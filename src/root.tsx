@@ -12,13 +12,16 @@ import {
     Title,
 } from 'solid-start'
 
+import '@fontsource/roboto'
+import '@fontsource/roboto-condensed'
+import '@fontsource/inter'
 import '~/styles/root.sass'
 
 export default function Root() {
     return (
-        <Html lang="en">
+        <Html lang="ru">
             <Head>
-                <Title>SolidStart - With Auth</Title>
+                <Title>SolidJS|Prisma - demo</Title>
                 <Meta charset="utf-8"/>
                 <Meta name="viewport" content="width=device-width, initial-scale=1"/>
             </Head>

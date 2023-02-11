@@ -7,6 +7,7 @@ function model(el: HTMLInputElement, state: () => Signal<string>) {
     })
 }
 
+
 declare module 'solid-js' {
 
     namespace JSX {

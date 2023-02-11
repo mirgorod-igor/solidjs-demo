@@ -45,8 +45,8 @@ export function getUserSession(req: Request) {
 export async function getUserId(req: Request) {
     const session = await getUserSession(req)
     console.log('session', session.data)
-    const userId = parseInt(session.get('userId'))
-    return !isNaN(userId) ? userId : null
+    const userId = session.get('userId')as number
+    return userId || null
 }
 
 export async function requireUserId(
@@ -54,13 +54,13 @@ export async function requireUserId(
     redirectTo: string = new URL(request.url).pathname
 ) {
     const session = await getUserSession(request)
-    const userId = parseInt(session.get('userId'))
-    if (isNaN(userId)) {
+        , userId = session.get('userId')
+    if (userId) {
         const searchParams = new URLSearchParams([['redirectTo', redirectTo]])
         throw redirect(`/login?${searchParams}`)
     }
 
-    return userId
+    return userId || null
 }
 
 export async function getUser(db: PrismaClient, req: Request) {
@@ -90,7 +90,7 @@ export async function logout(request: Request) {
     })
 }
 
-export async function createUserSession(userId: string, redirectTo: string) {
+export async function createUserSession(userId: number, redirectTo: string) {
     const session = await storage.getSession()
     session.set('userId', userId)
     return redirect(redirectTo, {
