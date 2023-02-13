@@ -1,0 +1,73 @@
+@use 'icon'
+@use 'loading'
+
+
+.remove-toggler
+	~ label
+		@extend .icon\:remove
+		justify-self: end
+	&:checked
+		~ span
+			color: lightgray
+		~ label
+			@extend .icon\:loading
+			cursor: default
+			flex: 0 0 auto
+
+	&:global(.error)
+		~ span
+			color: red
+
+
+.list
+	display: grid
+	grid-template-columns: 1fr
+	grid-template-rows: repeat(10, minmax(20px, auto))
+	grid-auto-rows: fit-content(100%)
+	row-gap: 8px
+	padding: 16px 12px
+	width: 100%
+	position: relative
+	min-height: auto
+	overflow: hidden
+
+
+	> div
+		display: flex
+		align-items: center
+		justify-content: space-between
+		position: relative
+		column-gap: 8px
+		> u
+			flex: 0 0 5%
+		// удаление
+		:global(._T_)
+			@extend .remove-toggler
+
+	.header
+		span, a
+			flex: 4
+
+	&.wait
+		&:after
+			@extend .loading
+
+
+
+.orgs
+	@extend .list
+	grid-template-columns: 0.5fr 10fr
+	> b
+		align-self: end
+		grid-column: span 2
+	> div
+		grid-column: 2
+		> a
+			&:first-of-type
+				flex: 2
+		> span
+			&:first-of-type
+				flex: 4.5
+			&:nth-of-type(2)
+				flex: 0.5
+

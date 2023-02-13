@@ -3,6 +3,7 @@ import {redirect} from 'solid-start/server'
 import {createCookieSessionStorage} from 'solid-start/session'
 import db from '.'
 
+
 type LoginForm = {
     username: string;
     password: string;
@@ -45,7 +46,7 @@ export function getUserSession(req: Request) {
 export async function getUserId(req: Request) {
     const session = await getUserSession(req)
     console.log('session', session.data)
-    const userId = session.get('userId')as number
+    const userId = session.get('userId') as number
     return userId || null
 }
 
@@ -81,6 +82,7 @@ export async function getUser(db: PrismaClient, req: Request) {
     }
 }
 
+
 export async function logout(request: Request) {
     const session = await storage.getSession(request.headers.get('Cookie'))
     return redirect('/login', {
@@ -89,6 +91,7 @@ export async function logout(request: Request) {
         },
     })
 }
+
 
 export async function createUserSession(userId: number, redirectTo: string) {
     const session = await storage.getSession()

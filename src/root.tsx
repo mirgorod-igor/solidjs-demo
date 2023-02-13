@@ -9,15 +9,26 @@ import {
     Meta,
     Routes,
     Scripts,
-    Title,
+    Title, useRouteData,
 } from 'solid-start'
 
 import '@fontsource/roboto'
 import '@fontsource/roboto-condensed'
 import '@fontsource/inter'
+
+
+
 import '~/styles/root.sass'
+import {createServerAction$} from 'solid-start/server'
+import {getUserId, logout} from '~/db/session'
+import {useUser} from '~/db/useUser'
+import {createRouteData} from 'solid-start/data'
+
+
+
 
 export default function Root() {
+
     return (
         <Html lang="ru">
             <Head>

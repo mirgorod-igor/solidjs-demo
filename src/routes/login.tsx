@@ -9,8 +9,8 @@ import {
 import db from '~/db'
 import {createUserSession, getUser, login, register} from '~/db/session'
 
-import modelDr from '~/lib/model'
-const model = modelDr
+import valueDr from '~/lib/value'
+const value = valueDr
 
 
 function validateUsername(username: unknown) {
@@ -127,13 +127,13 @@ export default function Login() {
                             <input
                                 type="radio" name="loginType" value="login"
                                 checked={true}
-                                use:model={loginTypeSig}
+                                use:value={loginTypeSig}
                             /> Вход
                         </label>
                         <label>
                             <input
                                 type="radio" name="loginType" value="register"
-                                use:model={loginTypeSig}
+                                use:value={loginTypeSig}
                             /> Регистрация
                         </label>
                     </fieldset>

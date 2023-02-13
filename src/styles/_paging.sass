@@ -1,0 +1,39 @@
+.paging
+    list-style: none
+    display: flex
+    column-gap: 8px
+    font-size: 1rem
+    margin-bottom: 8px
+
+    > li
+        display: flex
+        align-items: center
+        justify-content: center
+        border-radius: 99px
+        color: lightblue
+        width: 36px
+        height: 36px
+        margin: 0
+        line-height: 2
+        cursor: pointer
+        user-select: none
+
+        transition: background 0.3s linear
+
+        &.dots
+            font-weight: bolder
+            background: inherit
+
+            svg
+                fill: lightblue
+        //&.flip
+            svg
+                transform: rotate(180deg)
+
+        &:hover
+            background: aliceblue
+
+        &.active
+            background: dodgerblue
+            color: white
+            cursor: default

@@ -1,0 +1,142 @@
+@use 'icon'
+@use 'loading'
+@use 'paging'
+@use 'tab'
+
+
+
+/* width */
+::-webkit-scrollbar
+	width: 10px
+
+
+/* Track */
+::-webkit-scrollbar-track
+	background: #f1f1f1
+
+
+/* Handle */
+::-webkit-scrollbar-thumb
+	background: #888
+
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover
+	background: #555
+
+html
+	-webkit-text-size-adjust: 100%
+	font-family: Inter, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+	font-size: 18px
+	line-height: 1.2
+
+	@media screen and (max-width: 800px)
+		font-size: 14px
+
+
+
+body
+	-webkit-font-smoothing: antialiased
+	-moz-osx-font-smoothing: grayscale
+	margin: 0
+	height: 100vh
+
+
+header
+	display: flex
+	align-items: center
+	padding: 1rem 0
+	width: 100%
+	background: #f3f4f6
+	margin-bottom: 2rem
+	*:last-of-type
+		margin-left: auto
+
+
+label
+	user-select: none
+
+
+*, :after, :before
+	box-sizing: border-box
+	padding: 0
+	margin: 0
+
+
+h1, h2
+	margin: 0
+	font-family: 'Roboto Condensed', sans-serif
+
+._T_
+	display: none
+
+
+
+main
+	height: 100%
+	width: 400px
+	margin: auto
+	display: flex
+
+
+a
+	text-decoration: none
+	color: steelblue
+	transition: color .3s ease-in
+	&:hover
+		color: skyblue
+
+
+form
+	display: flex
+	flex-flow: column
+	row-gap: 1rem
+
+input, select
+	font-family: Inter, sans-serif
+	font-size: 1rem
+	margin: 0 0 0 0.4rem
+	border: 2px solid #000
+	border-radius: 4px
+	flex: 1
+	height: 36px
+	padding: 4px 8px
+
+
+
+
+small
+	font-size: 0.75rem
+
+
+button
+	font-family: "Roboto Condensed", sans-serif
+	background: #d1d5db
+	border: none
+	border-radius: 0.3rem
+	padding: 0.2rem
+	font-size: 1.111rem
+	width: 100%
+
+
+
+
+.breakcrumbs
+	display: flex
+	> a
+		font-size: 0.8rem
+		cursor: pointer
+		&:not(:last-of-type):after
+			content: '\00A0/\00A0'
+
+
+@media screen and (max-width: 1600px)
+	#__next
+		padding: 2rem 0
+
+@media screen and (max-width: 1200px)
+	#__next
+		height: 100%
+		padding: 1rem
+		main
+			width: 100%

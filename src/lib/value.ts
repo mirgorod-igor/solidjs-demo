@@ -1,7 +1,7 @@
 import { Signal } from 'solid-js'
 
-function model(el: HTMLInputElement, state: () => Signal<string>) {
-    const [_, set] = state()
+function value(el: HTMLInputElement, value: () => Signal<string|number>) {
+    const [_, set] = value()
     el.addEventListener('change', e => {
         set((e.currentTarget as HTMLInputElement)!.value)
     })
@@ -14,10 +14,10 @@ declare module 'solid-js' {
 
         // use:model
         interface Directives {
-            model: Signal<string>
+            value: Signal<string|number>
         }
     }
 }
 
 
-export default model
+export default value
